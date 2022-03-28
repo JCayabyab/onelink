@@ -45,7 +45,8 @@ export const GlobalContextProvider = ({
   const logout = useCallback(() => {
     setUserState(null);
     localStorage.removeItem('user');
-  }, [setUserState]);
+    router.push('/login');
+  }, [setUserState, router]);
 
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('user');
