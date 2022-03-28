@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ const Login = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const { setUser } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   const handleLogin = async (
     event: FormEvent<HTMLFormElement>
@@ -22,10 +22,9 @@ const Login = () => {
         username: usernameInput,
         password: passwordInput,
       });
-      const { user } = await res.data;
-      if (user) {
-        setUser(user);
-        router.push('/');
+      const { user: userFromBackend } = await res.data;
+      if (userFromBackend) {
+        setUser(userFromBackend);
       } else {
         throw new Error('Login failed: Returned user was invalid');
       }
@@ -38,6 +37,12 @@ const Login = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   return (
     <div>
