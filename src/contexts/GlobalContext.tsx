@@ -45,7 +45,7 @@ export const GlobalContextProvider = ({
 
     if (router && userFromLocalStorage) {
       setUser(JSON.parse(userFromLocalStorage));
-    } else {
+    } else if (router.pathname !== '/login') {
       router.push('/login');
     }
   }, [setUser, router]);
