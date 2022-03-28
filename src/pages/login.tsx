@@ -54,7 +54,7 @@ const Login = () => {
             onChange={(event: FormEvent<HTMLInputElement>) =>
               setUsernameInput(event.currentTarget.value)
             }
-          ></input>
+          />
         </div>
         <div>
           <input
@@ -63,7 +63,7 @@ const Login = () => {
             onChange={(event: FormEvent<HTMLInputElement>) =>
               setPasswordInput(event.currentTarget.value)
             }
-          ></input>
+          />
         </div>
         <div>
           <button type="submit">Login</button>
