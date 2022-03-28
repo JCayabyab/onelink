@@ -16,6 +16,7 @@ export interface IUser {
 export interface GlobalContextInterface {
   user?: IUser | null;
   setUser: (user: IUser) => void;
+  logout: () => void;
 }
 
 export declare interface GlobalContextProviderProps {
@@ -24,6 +25,7 @@ export declare interface GlobalContextProviderProps {
 
 export const GlobalContext = createContext<GlobalContextInterface>({
   setUser: () => {},
+  logout: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -40,6 +42,11 @@ export const GlobalContextProvider = ({
     [setUserState]
   );
 
+  const logout = useCallback(() => {
+    setUserState(null);
+    localStorage.removeItem('user');
+  }, [setUserState]);
+
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('user');
 
@@ -51,7 +58,7 @@ export const GlobalContextProvider = ({
   }, [setUser, router]);
 
   return (
-    <GlobalContext.Provider value={{ user, setUser }}>
+    <GlobalContext.Provider value={{ user, setUser, logout }}>
       {children}
     </GlobalContext.Provider>
   );
