@@ -19,7 +19,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-      <div>
+      {user ? (
         <Menu as="div">
           <Menu.Button as={Fragment}>
             <button className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-700 font-sans text-2xl font-semibold text-white hover:bg-purple-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
@@ -54,7 +54,11 @@ export default function Navbar() {
             </Menu.Items>
           </Transition>
         </Menu>
-      </div>
+      ) : (
+        <Link href="/login">
+          <a>Login</a>
+        </Link>
+      )}
     </div>
   );
 }
