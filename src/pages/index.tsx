@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import LikeCounter from '@/components/LikeCounter';
 import { useGlobalContext } from '@/contexts/GlobalContext';
 import useLinks from '@/hooks/useLinks';
 import { Meta } from '@/layout/Meta';
@@ -22,6 +23,7 @@ const Create = () => {
               <h1 className="text-center font-sans text-2xl font-bold text-white">
                 {`${user.username}'s Profile`}
               </h1>
+              <LikeCounter />
             </div>
             <div className="flex items-center">
               <Link href="/edit">
