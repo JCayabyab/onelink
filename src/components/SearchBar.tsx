@@ -3,7 +3,8 @@ import React, { FormEvent, useState } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 
-const mapWhitespaceToPluses = (query: string) => query.replaceAll(/\s/g, '+');
+const mapWhitespaceToPluses = (query: string) =>
+  query.replace(/\s/g, '+').replace(/[^A-Za-z0-9+]/g, '');
 
 export default function SearchBar() {
   const [queryInput, setQueryInput] = useState('');
@@ -13,7 +14,7 @@ export default function SearchBar() {
     event.preventDefault();
 
     if (queryInput) {
-      router.push(mapWhitespaceToPluses(queryInput));
+      router.push(`/search/${mapWhitespaceToPluses(queryInput)}`);
       setQueryInput('');
     }
   };
