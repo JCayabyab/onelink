@@ -9,8 +9,9 @@ import {
 import { useRouter } from 'next/router';
 
 export interface IUser {
-  username: String;
-  password: String;
+  username: string;
+  password: string;
+  linkName: string;
 }
 
 export interface GlobalContextInterface {

@@ -1,186 +1,95 @@
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
+import Link from 'next/link';
+
+import { useGlobalContext } from '@/contexts/GlobalContext';
 import { Meta } from '@/layout/Meta';
 import { Main } from '@/templates/Main';
 
-const Index = () => {
-  const router = useRouter();
+interface ILink {
+  label: string;
+  link: string;
+}
+
+const useLinks = (username: string | undefined) => {
+  const [links, setLinks] = useState<ILink[]>([]);
+
+  useEffect(() => {
+    if (username) {
+      // const res = await axios.post('/api/links', { username });
+      const res = {
+        data: {
+          links: [
+            { label: 'Instagram', link: 'https://www.instagram.com/willsmith' },
+            {
+              label: "Enemy's Instagram",
+              link: 'https://www.instagram.com/chrisrock',
+            },
+          ],
+        },
+      };
+      const { links: linksFromBackend } = res.data;
+      setLinks(linksFromBackend);
+    }
+  }, [username, setLinks]);
+
+  const renderLinks = () =>
+    links.map(({ label, link }) => (
+      <div key={label} className="mb-4">
+        <a
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+          className="block w-full rounded-md border-8 border-black py-3 px-5 text-black hover:bg-black/10"
+        >
+          {label}
+        </a>
+      </div>
+    ));
+
+  return { renderLinks };
+};
+
+const Create = () => {
+  const { user } = useGlobalContext();
+  const { renderLinks } = useLinks(user?.username);
 
   return (
     <Main
       meta={
-        <Meta
-          title="Next.js Boilerplate Presentation"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
-        />
+        <Meta title="Profile" description="View and manage your OneLink." />
       }
     >
-      <a href="https://github.com/ixartz/Next-js-Boilerplate">
-        <img
-          src={`${router.basePath}/assets/images/nextjs-starter-banner.png`}
-          alt="Nextjs starter banner"
-        />
-      </a>
-      <h1 className="text-2xl font-bold">
-        Boilerplate code for your Nextjs project with Tailwind CSS
-      </h1>
-      <p>
-        <span role="img" aria-label="rocket">
-          🚀
-        </span>{' '}
-        Next.js Boilerplate is a starter code for your Next js project by
-        putting developer experience first .{' '}
-        <span role="img" aria-label="zap">
-          ⚡️
-        </span>{' '}
-        Made with Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged,
-        VSCode, Netlify, PostCSS, Tailwind CSS.
-      </p>
-      <h2 className="text-lg font-semibold">Next js Boilerplate Features</h2>
-      <p>Developer experience first:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="fire">
-            🔥
-          </span>{' '}
-          <a href="https://nextjs.org" rel="nofollow">
-            Next.js
-          </a>{' '}
-          for Static Site Generator
-        </li>
-        <li>
-          <span role="img" aria-label="art">
-            🎨
-          </span>{' '}
-          Integrate with{' '}
-          <a href="https://tailwindcss.com" rel="nofollow">
-            Tailwind CSS
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="nail_care">
-            💅
-          </span>{' '}
-          PostCSS for processing Tailwind CSS
-        </li>
-        <li>
-          <span role="img" aria-label="tada">
-            🎉
-          </span>{' '}
-          Type checking Typescript
-        </li>
-        <li>
-          <span role="img" aria-label="pencil2">
-            ✏️
-          </span>{' '}
-          Linter with{' '}
-          <a href="https://eslint.org" rel="nofollow">
-            ESLint
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="hammer_and_wrench">
-            🛠
-          </span>{' '}
-          Code Formatter with{' '}
-          <a href="https://prettier.io" rel="nofollow">
-            Prettier
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="fox_face">
-            🦊
-          </span>{' '}
-          Husky for Git Hooks
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🚫
-          </span>{' '}
-          Lint-staged for running linters on Git staged files
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🗂
-          </span>{' '}
-          VSCode configuration: Debug, Settings, Tasks and extension for
-          PostCSS, ESLint, Prettier, TypeScript
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            🤖
-          </span>{' '}
-          SEO metadata, JSON-LD and Open Graph tags with Next SEO
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            ⚙️
-          </span>{' '}
-          <a
-            href="https://www.npmjs.com/package/@next/bundle-analyzer"
-            rel="nofollow"
-          >
-            Bundler Analyzer
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="rainbow">
-            🌈
-          </span>{' '}
-          Include a FREE minimalist theme
-        </li>
-        <li>
-          <span role="img" aria-label="hundred">
-            💯
-          </span>{' '}
-          Maximize lighthouse score
-        </li>
-      </ul>
-      <p>Built-in feature from Next.js:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="coffee">
-            ☕
-          </span>{' '}
-          Minify HTML &amp; CSS
-        </li>
-        <li>
-          <span role="img" aria-label="dash">
-            💨
-          </span>{' '}
-          Live reload
-        </li>
-        <li>
-          <span role="img" aria-label="white_check_mark">
-            ✅
-          </span>{' '}
-          Cache busting
-        </li>
-      </ul>
-      <h2 className="text-lg font-semibold">Our Stater code Philosophy</h2>
-      <ul>
-        <li>Minimal code</li>
-        <li>SEO-friendly</li>
-        <li>
-          <span role="img" aria-label="rocket">
-            🚀
-          </span>{' '}
-          Production-ready
-        </li>
-      </ul>
-      <p>
-        Check our GitHub project for more information about{' '}
-        <a href="https://github.com/ixartz/Next-js-Boilerplate">
-          Nextjs Boilerplate
-        </a>
-        . You can also browse our{' '}
-        <a href="https://creativedesignsguru.com/category/nextjs/">
-          Premium NextJS Templates
-        </a>{' '}
-        on our website to support this project.
-      </p>
+      {user ? (
+        <>
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center">
+              <h1 className="text-center font-sans text-2xl font-bold text-white">
+                {`${user.username}'s Profile`}
+              </h1>
+            </div>
+            <div className="flex items-center">
+              <Link href="/edit">
+                <a className="mt-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black">
+                  Edit
+                </a>
+              </Link>
+              <Link href={`/l/${user.linkName}`}>
+                <a className="mt-2 ml-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black">
+                  Preview
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="container mt-2 rounded-lg bg-white px-7 py-5">
+            <div>{renderLinks()}</div>
+          </div>
+        </>
+      ) : (
+        '...'
+      )}
     </Main>
   );
 };
 
-export default Index;
+export default Create;
