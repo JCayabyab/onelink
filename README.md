@@ -2,6 +2,10 @@
 
 This is an app that makes it easy to share all your social media accounts / interesting links with a single URL.
 
+## Live demo
+
+A live demo can be viewed at [onelink.cf](https://www.onelink.cf/).
+
 ## Getting started
 
 To develop / demo, run the following commands:
