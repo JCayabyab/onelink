@@ -82,7 +82,9 @@ const SearchResults = () => {
     <Main
       meta={
         <Meta
-          title={`${replacePlusesWithSpaces((query as string) || '')} - Search`}
+          title={
+            query ? `${replacePlusesWithSpaces(query as string)} - Search` : ''
+          }
           description="Search for other users and their OneLinks."
         />
       }
