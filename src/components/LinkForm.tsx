@@ -129,7 +129,8 @@ export default function LinkForm({
 
   return (
     <>
-      <div className="container mt-2 rounded-lg bg-white px-3 py-5">
+      <div className="container mt-2 rounded-lg bg-white px-3 pb-5">
+        <h1 className="text-center font-bold text-black">Links</h1>
         <div>{renderLinkInputs()}</div>
         <div className="mt-2 flex justify-end" onClick={addLinkInput}>
           <button className="inline-flex items-center rounded-full bg-purple-900 px-6 py-1 text-lg font-bold text-white">
