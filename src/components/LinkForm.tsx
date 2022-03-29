@@ -1,6 +1,14 @@
-import React, { FormEvent, useCallback, useMemo, useState } from 'react';
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { PlusIcon, XCircleIcon } from '@heroicons/react/solid';
+
+import { ILink } from '@/hooks/useLinks';
 
 interface ILinkInput {
   label: string;
@@ -8,35 +16,37 @@ interface ILinkInput {
   id: number;
 }
 
-interface ILink {
-  label: string;
-  link: string;
-}
-
 interface ILinkInputMap {
   [key: number]: ILinkInput;
 }
 
 interface LinkFormProps {
-  initialLinkInput?: ILinkInput[];
+  initialLinkInput?: ILink[] | null;
+  sendButtonText?: string;
 }
 
 const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
-  const [linkInputMap, setLinkInputMap] = useState<ILinkInputMap>(
-    existingLinkInputs.reduce(
-      (obj: { map: ILinkInputMap; ctr: number }, li: ILink) => ({
-        map: {
-          ...obj.map,
-          [obj.ctr]: {
-            ...li,
-            id: obj.ctr,
-          },
-        },
-        ctr: obj.ctr + 1,
-      }),
-      { map: {}, ctr: 0 }
-    ).map
-  );
+  const [linkInputMap, setLinkInputMap] = useState<ILinkInputMap>({});
+
+  useEffect(() => {
+    if (existingLinkInputs) {
+      setLinkInputMap(
+        existingLinkInputs.reduce(
+          (obj: { map: ILinkInputMap; ctr: number }, li: ILink) => ({
+            map: {
+              ...obj.map,
+              [obj.ctr]: {
+                ...li,
+                id: obj.ctr,
+              },
+            },
+            ctr: obj.ctr + 1,
+          }),
+          { map: {}, ctr: 0 }
+        ).map
+      );
+    }
+  }, [existingLinkInputs]);
 
   const [counter, setCounter] = useState<number>(existingLinkInputs.length + 1);
 
@@ -109,7 +119,10 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
   };
 };
 
-export default function LinkForm({ initialLinkInput }: LinkFormProps) {
+export default function LinkForm({
+  initialLinkInput,
+  sendButtonText,
+}: LinkFormProps) {
   const { addLinkInput, renderLinkInputs } = useLinkInputs(
     initialLinkInput || [{ link: '', label: '' }]
   );
@@ -126,7 +139,7 @@ export default function LinkForm({ initialLinkInput }: LinkFormProps) {
         </div>
         <div className="flex justify-center">
           <button className="rounded-full bg-purple-900 px-10 py-2 text-xl font-bold text-white">
-            Publish
+            {sendButtonText || 'Publish'}
           </button>
         </div>
       </div>
