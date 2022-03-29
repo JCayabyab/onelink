@@ -13,7 +13,7 @@ interface IUserResult extends IUser {
   links: number;
 }
 
-// const replacePlusesWithSpaces = (query: string) => query.replace('+', ' ');
+const replacePlusesWithSpaces = (query: string) => query.replace('+', ' ');
 
 const useSearch = (query: string) => {
   const [userResults, setUserResults] = useState<IUserResult[] | null>(null);
@@ -82,7 +82,7 @@ const SearchResults = () => {
     <Main
       meta={
         <Meta
-          title={`${query} - Search`}
+          title={`${replacePlusesWithSpaces((query as string) || '')} - Search`}
           description="Search for other users and their OneLinks."
         />
       }
