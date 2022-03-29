@@ -12,6 +12,6 @@ npm run dev
 
 ## Quick Deploy
 
-[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixartz/Next-js-Boilerplate)
+[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JCayabyab/onelink)
 
 This project was bootstrapped with the [CreativeDesignsGuru Next.js boilerplate](https://github.com/ixartz/Next-js-Boilerplate).
