@@ -1,18 +1,26 @@
 import { useState, useEffect } from 'react';
 
+import { IUser } from '@/contexts/GlobalContext';
+
 export interface ILink {
   label: string;
   link: string;
 }
 
-const useLinks = (username: string | undefined) => {
+const useLinks = (linkName: string | undefined) => {
   const [links, setLinks] = useState<ILink[] | null>(null);
+  const [onelinkOwner, setOnelinkOwner] = useState<IUser | null>(null);
 
   useEffect(() => {
-    if (username) {
-      // const res = await axios.post('/api/links', { username });
+    if (linkName) {
+      // const res = await axios.post('/api/links', { linkName });
       const res = {
         data: {
+          user: {
+            username: 'willsmith',
+            password: 'password',
+            linkName: 'will',
+          },
           links: [
             { label: 'Instagram', link: 'https://www.instagram.com/willsmith' },
             {
@@ -22,10 +30,11 @@ const useLinks = (username: string | undefined) => {
           ],
         },
       };
-      const { links: linksFromBackend } = res.data;
+      const { links: linksFromBackend, user } = res.data;
       setLinks(linksFromBackend);
+      setOnelinkOwner(user);
     }
-  }, [username, setLinks]);
+  }, [linkName, setLinks]);
 
   const renderLinks = () =>
     links ? (
@@ -44,7 +53,7 @@ const useLinks = (username: string | undefined) => {
     ) : (
       <div>...</div>
     );
-  return { renderLinks, links };
+  return { renderLinks, links, onelinkOwner };
 };
 
 export default useLinks;
