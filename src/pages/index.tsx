@@ -7,7 +7,7 @@ import { Main } from '@/templates/Main';
 
 const Create = () => {
   const { user } = useGlobalContext();
-  const { renderLinks } = useLinks(user?.username);
+  const { renderLinks } = useLinks(user?.linkName);
 
   return (
     <Main
@@ -29,7 +29,8 @@ const Create = () => {
                   Edit
                 </a>
               </Link>
-              <Link href={`/l/${user.linkName}`}>
+              {/* TODO: Remove default linkName */}
+              <Link href={`/l/${user.linkName || 'default'}`}>
                 <a className="mt-2 ml-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black">
                   Preview
                 </a>
