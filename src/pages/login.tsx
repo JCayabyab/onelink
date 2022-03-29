@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useGlobalContext } from '@/contexts/GlobalContext';
+import { Meta } from '@/layout/Meta';
 
 const Login = () => {
   const [usernameInput, setUsernameInput] = useState('');
@@ -47,6 +48,8 @@ const Login = () => {
 
   return (
     <div className="container mx-auto my-20 flex flex-col items-center rounded-xl text-white">
+      <Meta title="Login" description="Log in to your OneLink account." />
+
       <h1 className="font-sans text-6xl font-bold">OneLink</h1>
       <h2 className="mb-4 font-sans text-2xl font-bold">
         https://onelink.tk/...

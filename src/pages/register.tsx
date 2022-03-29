@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 
 import { useGlobalContext } from '@/contexts/GlobalContext';
+import { Meta } from '@/layout/Meta';
 
 const Register = () => {
   const [usernameInput, setUsernameInput] = useState('');
@@ -69,6 +70,10 @@ const Register = () => {
 
   return (
     <div className="container mx-auto my-20 flex flex-col items-center rounded-xl text-white">
+      <Meta
+        title="Register"
+        description="Register for a new OneLink account."
+      />
       <h1 className="font-sans text-6xl font-bold">OneLink</h1>
       <div className="mb-4 font-sans text-sm font-semibold">
         * Required field
