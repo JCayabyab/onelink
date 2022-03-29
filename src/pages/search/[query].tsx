@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -54,6 +54,11 @@ const SearchResults = () => {
 
   const { userResults } = useSearch(query as string);
 
+  const formattedQuery = useMemo(
+    () => (query ? replacePlusesWithSpaces(query as string) : ''),
+    [query]
+  );
+
   const renderResults = () =>
     userResults ? (
       <div>
@@ -82,16 +87,14 @@ const SearchResults = () => {
     <Main
       meta={
         <Meta
-          title={
-            query ? `${replacePlusesWithSpaces(query as string)} - Search` : ''
-          }
+          title={formattedQuery}
           description="Search for other users and their OneLinks."
         />
       }
     >
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-center font-sans text-2xl font-bold text-white">
-          Search Results
+          Search Results - {`"${formattedQuery}"`}
         </h1>
       </div>
       <div className="container mt-2 rounded-lg bg-white px-7 py-5">
