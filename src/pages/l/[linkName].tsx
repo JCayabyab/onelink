@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 
+import LikeButton from '@/components/LikeButton';
 import LikeCounter from '@/components/LikeCounter';
 import useLinks from '@/hooks/useLinks';
 import { Meta } from '@/layout/Meta';
@@ -9,7 +10,9 @@ const OneLink = () => {
   const router = useRouter();
   const { linkName } = router.query;
 
-  const { renderLinks, onelinkOwner } = useLinks(linkName as string);
+  const { renderLinks, onelinkOwner, likes, handleLike, liked } = useLinks(
+    linkName as string
+  );
 
   return (
     <Main
@@ -24,8 +27,9 @@ const OneLink = () => {
               <h1 className="text-center font-sans text-2xl font-bold text-white">
                 {`${onelinkOwner.username}'s Profile`}
               </h1>
-              <LikeCounter />
+              <LikeCounter likes={likes} />
             </div>
+            <LikeButton handleLike={handleLike} liked={liked} />
           </div>
           <div className="container mt-2 rounded-lg bg-white px-7 py-5">
             <div>{renderLinks()}</div>
