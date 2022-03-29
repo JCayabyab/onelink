@@ -46,7 +46,7 @@ const Register = () => {
     try {
       // const res = await axios.post('/api/register', body);
       const res = { data: { user: body } };
-      const { user: userFromBackend } = await res.data;
+      const { user: userFromBackend } = res.data;
       if (userFromBackend) {
         setUser(userFromBackend);
       } else {
