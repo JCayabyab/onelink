@@ -26,7 +26,8 @@ const Login = () => {
       });
       const { user: userFromBackend } = await res.data;
       if (userFromBackend) {
-        setUser(userFromBackend);
+        // TODO: Remove manual linkName addition
+        setUser({ ...userFromBackend, linkName: 'willsmith' });
       } else {
         throw new Error('Login failed: Returned user was invalid');
       }
