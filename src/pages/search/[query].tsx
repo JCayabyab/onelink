@@ -13,7 +13,7 @@ interface IUserResult extends IUser {
   links: number;
 }
 
-const replacePlusesWithSpaces = (query: string) => query.replace('+', ' ');
+const replacePlusesWithSpaces = (query: string) => query.replaceAll('+', ' ');
 
 const useSearch = (query: string) => {
   const [userResults, setUserResults] = useState<IUserResult[] | null>(null);
