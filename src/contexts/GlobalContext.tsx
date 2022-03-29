@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 
 export interface IUser {
   username: string;
-  password: string;
   linkName: string;
 }
 

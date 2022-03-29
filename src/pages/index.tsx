@@ -8,7 +8,7 @@ import { Main } from '@/templates/Main';
 
 const Create = () => {
   const { user } = useGlobalContext();
-  const { renderLinks } = useLinks(user?.linkName);
+  const { renderLinks, likes } = useLinks(user?.linkName);
 
   return (
     <Main
@@ -23,7 +23,7 @@ const Create = () => {
               <h1 className="text-center font-sans text-2xl font-bold text-white">
                 {`${user.username}'s Profile`}
               </h1>
-              <LikeCounter />
+              <LikeCounter likes={likes} />
             </div>
             <div className="flex items-center">
               <Link href="/edit">
