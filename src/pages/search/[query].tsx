@@ -59,7 +59,7 @@ const SearchResults = () => {
       <div>
         {userResults.map(({ username, linkName, likes, links }) => (
           <Link href={`/l/${linkName}`} key={username}>
-            <a className="mb-4 flex justify-between border-b-2 border-b-black py-4">
+            <a className="flex justify-between border-b-2 border-b-black p-4 hover:bg-black/10">
               <div className="flex items-center">
                 <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-700 font-sans text-2xl font-semibold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
                   {username[0]?.toUpperCase()}
