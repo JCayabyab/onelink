@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import axios from 'axios';
+
 import { IUser, useGlobalContext } from '@/contexts/GlobalContext';
 
 export interface ILink {
@@ -7,7 +9,7 @@ export interface ILink {
   link: string;
 }
 
-const useLinks = (linkName: string | undefined) => {
+const useLinks = (oneLink: string | undefined) => {
   const [links, setLinks] = useState<ILink[] | null>(null);
   const [onelinkOwner, setOnelinkOwner] = useState<IUser | null>(null);
   const [likes, setLikes] = useState<number>(0);
@@ -15,34 +17,32 @@ const useLinks = (linkName: string | undefined) => {
   const { user } = useGlobalContext();
 
   useEffect(() => {
-    if (linkName) {
-      // const res = await axios.post('/api/links', { linkName });
-      const res = {
-        data: {
-          user: {
-            username: 'willsmith',
-            linkName: 'will',
-          },
-          links: [
-            { label: 'Instagram', link: 'https://www.instagram.com/willsmith' },
-            {
-              label: "Enemy's Instagram",
-              link: 'https://www.instagram.com/chrisrock',
-            },
-          ],
-          likes: 20,
-        },
-      };
-      const {
-        links: linksFromBackend,
-        user: ownerFromBackend,
-        likes: likesFromBackend,
-      } = res.data;
-      setLinks(linksFromBackend);
-      setOnelinkOwner(ownerFromBackend);
-      setLikes(likesFromBackend);
+    async function getLink() {
+      if (oneLink) {
+        const res = await axios.post('/api/links', { oneLink });
+        const linkOwnerFromBackend: IUser = {
+          username: res.data.username,
+          oneLink: res.data.oneLink,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
+          likes: Object.keys(res.data.likes).map((key) => [key]),
+          links: Object.keys(res.data.links).map((key: any) => ({
+            label: key,
+            link: res.data.links[key],
+          })),
+        };
+        setOnelinkOwner(linkOwnerFromBackend);
+      }
     }
-  }, [linkName, setLinks]);
+    getLink();
+  }, [oneLink]);
+
+  useEffect(() => {
+    if (onelinkOwner?.links?.length > 0) {
+      setLinks(onelinkOwner?.links);
+    }
+    setLikes(onelinkOwner?.likes);
+  }, [onelinkOwner]);
 
   const renderLinks = () =>
     links ? (
@@ -67,7 +67,7 @@ const useLinks = (linkName: string | undefined) => {
     if (!user) {
       return;
     }
-    // await axios.post('/api/like', { username, linkName })
+    // await axios.post('/api/like', { username, oneLink })
     setLikes((prevLikes) => prevLikes + 1);
     setLiked(true);
   };
@@ -77,7 +77,7 @@ const useLinks = (linkName: string | undefined) => {
     if (!user) {
       return;
     }
-    // await axios.post('/api/unlike', { user.username, linkName })
+    // await axios.post('/api/unlike', { user.username, oneLink })
     setLikes((prevLikes) => prevLikes - 1);
     setLiked(false);
   };

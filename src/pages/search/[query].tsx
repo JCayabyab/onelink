@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -8,41 +9,25 @@ import { IUser } from '@/contexts/GlobalContext';
 import { Meta } from '@/layout/Meta';
 import { Main } from '@/templates/Main';
 
-interface IUserResult extends IUser {
-  likes: number;
-  links: number;
-}
-
 const replacePlusesWithSpaces = (query: string) => query.replaceAll('+', ' ');
 
 const useSearch = (query: string) => {
-  const [userResults, setUserResults] = useState<IUserResult[] | null>(null);
+  const [userResults, setUserResults] = useState<IUser[] | null>(null);
 
   useEffect(() => {
-    if (query) {
-      // const res = await axios.post('/api/search', { query: replacePlusesWithSpaces(query) });
-      const res = {
-        data: {
-          results: [
-            {
-              username: 'willsmith',
-              linkName: 'will',
-              likes: 10,
-              links: 2,
-            },
-            {
-              username: 'chrisrock',
-              linkName: 'chris',
-              likes: 15,
-              links: 6,
-            },
-          ],
-        },
-      };
-
-      const { results } = res.data;
-      setUserResults(results);
+    async function search() {
+      if (query) {
+        const res = await axios.post('/api/search', { query });
+        const users: IUser[] = res.data.map((user: any) => ({
+          username: user.username,
+          oneLink: user.oneLink,
+          likes: Object.keys(user.likes).map((key) => [key]),
+          links: Object.keys(user.links).map((key) => [key, user.links[key]]),
+        }));
+        setUserResults(users);
+      }
     }
+    search();
   }, [query]);
 
   return { userResults };
@@ -53,6 +38,7 @@ const SearchResults = () => {
   const { query } = router.query;
 
   const { userResults } = useSearch(query as string);
+  console.log(userResults);
 
   const formattedQuery = useMemo(
     () => (query ? replacePlusesWithSpaces(query as string) : ''),
@@ -62,8 +48,8 @@ const SearchResults = () => {
   const renderResults = () =>
     userResults ? (
       <div>
-        {userResults.map(({ username, linkName, likes, links }) => (
-          <Link href={`/l/${linkName}`} key={username}>
+        {userResults.map(({ username, oneLink, likes, links }) => (
+          <Link href={`/l/${oneLink}`} key={username}>
             <a className="flex justify-between border-b-2 border-b-black p-4 hover:bg-black/10">
               <div className="flex items-center">
                 <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-700 font-sans text-2xl font-semibold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
@@ -72,9 +58,9 @@ const SearchResults = () => {
                 <div className="mx-6 text-xl font-bold text-black">
                   {username}
                 </div>
-                <div className="text-sm text-black">{links} Links</div>
+                <div className="text-sm text-black">{links.length} Links</div>
               </div>
-              <LikeCounter likes={likes} blackText />
+              <LikeCounter likes={likes.length} blackText />
             </a>
           </Link>
         ))}

@@ -10,7 +10,11 @@ import { useRouter } from 'next/router';
 
 export interface IUser {
   username: string;
-  linkName: string;
+  oneLink: string;
+  links: any;
+  likes: any;
+  firstName: string;
+  lastName: string;
 }
 
 export interface GlobalContextInterface {

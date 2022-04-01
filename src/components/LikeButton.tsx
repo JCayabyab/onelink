@@ -20,7 +20,7 @@ export default function LikeButton({ handleLike, liked }: LikeButtonProps) {
     const path = router.pathname;
     if (path.slice(0, 3) === '/l/') {
       const { linkName } = router.query;
-      if (user && linkName !== user.linkName) {
+      if (user && linkName !== user.oneLink) {
         setIsViewingOtherProfile(true);
       }
     }

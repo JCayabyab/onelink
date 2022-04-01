@@ -36,7 +36,7 @@ export default function Navbar() {
           <Menu as="div" className="ml-4">
             <Menu.Button as={Fragment}>
               <button className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-700 font-sans text-2xl font-semibold text-white hover:bg-purple-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-                {user && user.username[0]?.toUpperCase()}
+                {user && user.username && user.username[0]?.toUpperCase()}
               </button>
             </Menu.Button>
             <Transition
