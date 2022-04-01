@@ -12,8 +12,8 @@ const Edit = () => {
     <Main
       meta={
         <Meta
-          title="Create OneLink"
-          description="Create a OneLink page for your account."
+          title="Edit OneLink"
+          description="Edit the existing OneLink page for your account."
         />
       }
     >

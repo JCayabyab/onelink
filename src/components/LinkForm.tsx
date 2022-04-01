@@ -119,12 +119,14 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
   };
 };
 
+const defaultLinkInputs = [{ link: '', label: '' }];
+
 export default function LinkForm({
   initialLinkInput,
   sendButtonText,
 }: LinkFormProps) {
   const { addLinkInput, renderLinkInputs } = useLinkInputs(
-    initialLinkInput || [{ link: '', label: '' }]
+    initialLinkInput || defaultLinkInputs
   );
 
   return (
