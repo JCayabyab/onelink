@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 
 import { useGlobalContext } from '@/contexts/GlobalContext';
@@ -40,13 +40,12 @@ const Register = () => {
       password: passwordInput,
       firstName: firstNameInput,
       lastName: lastNameInput,
-      linkName: linkNameInput,
+      oneLink: linkNameInput,
     };
 
     try {
-      // const res = await axios.post('/api/register', body);
-      const res = { data: { user: body } };
-      const { user: userFromBackend } = res.data;
+      const res = await axios.post('/api/register', body);
+      const userFromBackend = res.data;
       if (userFromBackend) {
         setUser(userFromBackend);
       } else {

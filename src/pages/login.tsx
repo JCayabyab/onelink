@@ -25,10 +25,9 @@ const Login = () => {
         username: usernameInput,
         password: passwordInput,
       });
-      const { user: userFromBackend } = await res.data;
+      const userFromBackend = await res.data;
       if (userFromBackend) {
-        // TODO: Remove manual linkName addition
-        setUser({ ...userFromBackend, linkName: 'willsmith' });
+        setUser({ ...userFromBackend, oneLink: userFromBackend.oneLink });
       } else {
         throw new Error('Login failed: Returned user was invalid');
       }

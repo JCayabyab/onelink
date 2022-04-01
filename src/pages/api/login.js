@@ -1,36 +1,26 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { query, where, collection, getDocs } from 'firebase/firestore';
+import db from './firebaseHandler';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: 'AIzaSyCB32f4Kr8Tn_6GHPiPzou3Mgjvl5-RxaU',
-  authDomain: 'onelink-77abb.firebaseapp.com',
-  projectId: 'onelink-77abb',
-  storageBucket: 'onelink-77abb.appspot.com',
-  messagingSenderId: '1054200075725',
-  appId: '1:1054200075725:web:dc37490fc4fa435bffe084',
-  measurementId: 'G-TLF5SY4HHS',
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-export async function getUser() {
-  const docRef = doc(db, 'users', 'Ej4FSoTvZRqjKVJ8LP1L');
-  const docSnap = await getDoc(docRef);
-  console.log('Document data:', docSnap.data());
-}
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { username, password } = req.body;
-  getUser();
-  if (username === 'username' && password === 'password') {
-    res.status(200).json({ user: { username } });
+  const users = collection(db, 'users');
+  const q = query(
+    users,
+    where('username', '==', username),
+    where('password', '==', password)
+  );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.size !== 1) {
+    res.status(401).send('Incorrect credentials');
     return;
   }
-  res.status(401).send('Incorrect credentials');
+  const user = querySnapshot.docs.map((x) => ({
+    username: x.get('username'),
+    oneLink: x.get('oneLink'),
+    links: x.get('links'),
+    likes: x.get('likes'),
+    firstName: x.get('firstName'),
+    lastName: x.get('lastName'),
+  }));
+  res.status(200).json(user[0]);
 }

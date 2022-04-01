@@ -6,7 +6,7 @@ import { Main } from '@/templates/Main';
 
 const Edit = () => {
   const { user } = useGlobalContext();
-  const { links } = useLinks(user?.username);
+  const { links } = useLinks(user?.oneLink);
 
   return (
     <Main
