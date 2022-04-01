@@ -8,6 +8,17 @@ import TypeAnimation from 'react-type-animation';
 import { useGlobalContext } from '@/contexts/GlobalContext';
 import { Meta } from '@/layout/Meta';
 
+const animationSequence = [
+  'willsmith',
+  4000,
+  'chrisrock',
+  4000,
+  'popsmoke',
+  4000,
+  'poohshiesty',
+  4000,
+];
+
 const Login = () => {
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
@@ -56,16 +67,7 @@ const Login = () => {
         <div className="inline-block w-40">
           <TypeAnimation
             cursor
-            sequence={[
-              'willsmith',
-              4000,
-              'chrisrock',
-              4000,
-              'popsmoke',
-              4000,
-              'poohshiesty',
-              4000,
-            ]}
+            sequence={animationSequence}
             repeat={Infinity}
             className="inline"
           />
