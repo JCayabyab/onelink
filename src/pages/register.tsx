@@ -74,12 +74,15 @@ const Register = () => {
         title="Register"
         description="Register for a new OneLink account."
       />
-      <h1 className="font-sans text-6xl font-bold">OneLink</h1>
+      <h1 className="font-sans text-5xl font-bold md:text-6xl">OneLink</h1>
       <div className="mb-4 font-sans text-sm font-semibold">
         * Required field
       </div>
-      <form onSubmit={handleRegister} className="flex flex-col items-center">
-        <div className="flex w-full align-top">
+      <form
+        onSubmit={handleRegister}
+        className="flex w-full max-w-sm flex-col items-stretch px-2"
+      >
+        <div className="flex items-start">
           <input
             type="text"
             value={usernameInput}
@@ -87,11 +90,11 @@ const Register = () => {
               setUsernameInput(event.currentTarget.value)
             }
             placeholder="Username"
-            className="my-2 w-full rounded-sm text-black"
+            className="my-2 w-0 flex-1 rounded-sm text-black"
           ></input>
           <span className="pl-1">*</span>
         </div>
-        <div className="flex w-full align-top">
+        <div className="flex items-start">
           <input
             type="password"
             value={passwordInput}
@@ -99,11 +102,11 @@ const Register = () => {
               setPasswordInput(event.currentTarget.value)
             }
             placeholder="Password"
-            className="my-2 w-full rounded-sm text-black"
+            className="my-2 w-0 flex-1 rounded-sm text-black"
           ></input>
           <span className="pl-1">*</span>
         </div>
-        <div className="flex">
+        <div className="flex max-w-full flex-row flex-wrap">
           <input
             type="text"
             value={firstNameInput}
@@ -111,7 +114,7 @@ const Register = () => {
               setFirstNameInput(event.currentTarget.value)
             }
             placeholder="First Name"
-            className="my-2 rounded-sm text-black"
+            className="my-2 mr-3 w-0 min-w-0 grow rounded-sm text-black"
           ></input>
           <input
             type="text"
@@ -120,28 +123,34 @@ const Register = () => {
               setLastNameInput(event.currentTarget.value)
             }
             placeholder="Last Name"
-            className="my-2 mx-3 rounded-sm text-black"
+            className="my-2 mr-3 w-0 min-w-0 grow rounded-sm text-black"
           ></input>
         </div>
         <div className="flex w-full items-center">
-          <div className="text-xl font-semibold">onelink.tk/</div>
-          <input
-            type="text"
-            value={linkNameInput}
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              setLinkNameInput(event.currentTarget.value)
-            }
-            placeholder="Link Name"
-            className="my-2 ml-3 flex-1 rounded-sm text-black"
-          ></input>
-          <span className="pl-1">*</span>
+          <div className="mr-3 hidden text-xl font-semibold sm:block">
+            onelink.tk/
+          </div>
+          <div className="flex flex-1 items-start">
+            <input
+              type="text"
+              value={linkNameInput}
+              onChange={(event: FormEvent<HTMLInputElement>) =>
+                setLinkNameInput(event.currentTarget.value)
+              }
+              placeholder="Link Name"
+              className="my-2 w-0 grow rounded-sm text-black"
+            ></input>
+            <span className="pl-1">*</span>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="mt-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black"
-        >
-          Login
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="mt-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black"
+          >
+            Login
+          </button>
+        </div>
       </form>
       <div className="my-2 text-red-300">{error || ''}</div>
     </div>
