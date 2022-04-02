@@ -11,8 +11,8 @@ import { useRouter } from 'next/router';
 export interface IUser {
   username: string;
   oneLink: string;
-  links: any;
-  likes: any;
+  links: { label: string; link: string }[];
+  likes: Set<string>;
   firstName: string;
   lastName: string;
 }
@@ -40,7 +40,15 @@ export const GlobalContextProvider = ({
 
   const setUser = useCallback(
     (inputUser: IUser) => {
-      setUserState(inputUser);
+      const temp: IUser = {
+        username: inputUser.username,
+        oneLink: inputUser.oneLink,
+        firstName: inputUser.firstName,
+        lastName: inputUser.lastName,
+        likes: new Set(inputUser.likes),
+        links: inputUser.links,
+      };
+      setUserState(temp);
       localStorage.setItem('user', JSON.stringify(inputUser));
     },
     [setUserState]

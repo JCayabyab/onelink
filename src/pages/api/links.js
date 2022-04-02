@@ -1,20 +1,21 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import db from './firebaseHandler';
 
 export default async function handler(req, res) {
-  const { oneLink } = req.body;
-  const users = collection(db, 'users');
-  const userNameSnapshot = await getDocs(
-    query(users, where('oneLink', '==', oneLink))
-  );
-  const results = userNameSnapshot.docs.map((x) => ({
-    username: x.get('username'),
-    oneLink: x.get('oneLink'),
-    links: x.get('links'),
-    likes: x.get('likes'),
-    firstName: x.get('firstName'),
-    lastName: x.get('lastName'),
-  }));
-  console.log(results);
-  res.status(200).json(results[0]);
+  const { username, oneLink } = req.body;
+  const userInfo = await getDoc(doc(db, 'users', username));
+  const likes = await getDocs(collection(db, `users/${username}/likes`));
+  const links = await getDocs(collection(db, `users/${username}/links`));
+  const user = {
+    username: userInfo.data().username,
+    oneLink,
+    firstName: userInfo.data().firstName,
+    lastName: userInfo.data().lastName,
+    likes: likes.docs.map((x) => x.id),
+    links: links.docs.map((x) => ({
+      label: x.data().label,
+      link: x.data().link,
+    })),
+  };
+  res.status(200).json(user);
 }
