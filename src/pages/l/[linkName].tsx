@@ -13,7 +13,6 @@ const OneLink = () => {
   const { renderLinks, onelinkOwner, likes, handleLike, liked } = useLinks(
     linkName as string
   );
-  console.log();
 
   return (
     <Main
