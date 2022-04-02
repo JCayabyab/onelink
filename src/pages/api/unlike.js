@@ -1,10 +1,10 @@
 import {
   collection,
   doc,
-  getDocs,
+  deleteDoc,
   query,
-  setDoc,
   where,
+  getDocs,
 } from 'firebase/firestore';
 import db from './firebaseHandler';
 
@@ -14,13 +14,12 @@ export default async function handler(req, res) {
   const userNameSnapshot = await getDocs(
     query(users, where('oneLink', '==', oneLink))
   );
-  await setDoc(
+  await deleteDoc(
     doc(
       db,
       `users/${userNameSnapshot.docs.at(0).data().username}/likes`,
       username
-    ),
-    {}
+    )
   );
   res.status(200).json('');
 }
