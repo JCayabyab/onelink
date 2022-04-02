@@ -36,6 +36,7 @@ const Login = () => {
         username: usernameInput,
         password: passwordInput,
       });
+      console.log(res);
       const userFromBackend = await res.data;
       if (userFromBackend) {
         setUser({ ...userFromBackend, oneLink: userFromBackend.oneLink });
