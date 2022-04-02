@@ -77,12 +77,12 @@ const useLinks = (oneLink: string | undefined) => {
     setLiked(true);
   };
 
-  const removeLike = () => {
+  const removeLike = async () => {
     // TODO: Add try-catch when this is implemented
     if (!user) {
       return;
     }
-    // await axios.post('/api/unlike', { user.username, oneLink })
+    await axios.post('/api/unlike', { username: user.username, oneLink });
     setLikes((prevLikes) => prevLikes - 1);
     setLiked(false);
   };
