@@ -20,7 +20,6 @@ const useLinks = (oneLink: string | undefined) => {
     async function getLink() {
       if (oneLink) {
         const res = await axios.post('/api/links', {
-          username: user?.username,
           oneLink,
         });
         const linkOwnerFromBackend: IUser = {
@@ -31,6 +30,8 @@ const useLinks = (oneLink: string | undefined) => {
           likes: new Set(res.data.likes),
           links: res.data.links,
         };
+        console.log('user', user);
+        console.log('oneLink', linkOwnerFromBackend);
         setOnelinkOwner(linkOwnerFromBackend);
       }
     }

@@ -2,10 +2,11 @@ import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import db from './firebaseHandler';
 
 export default async function handler(req, res) {
-  const username = req.body.query;
-  const userInfo = await getDoc(doc(db, 'users', username));
-  const likes = await getDocs(collection(db, `users/${username}/likes`));
-  const links = await getDocs(collection(db, `users/${username}/links`));
+  const oneLink = req.body.query;
+  const userInfo = await getDoc(doc(db, 'users', oneLink));
+  // TODO: Add better searching
+  const likes = await getDocs(collection(db, `users/${oneLink}/likes`));
+  const links = await getDocs(collection(db, `users/${oneLink}/links`));
   const user = {
     username: userInfo.data().username,
     oneLink: userInfo.data().oneLink,
