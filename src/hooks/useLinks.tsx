@@ -30,8 +30,6 @@ const useLinks = (oneLink: string | undefined) => {
           likes: new Set(res.data.likes),
           links: res.data.links,
         };
-        console.log('user', user);
-        console.log('oneLink', linkOwnerFromBackend);
         setOnelinkOwner(linkOwnerFromBackend);
       }
     }
