@@ -18,6 +18,7 @@ const animationSequence = [
   'poohshiesty',
   4000,
 ];
+axios.defaults.timeout = 5000;
 
 const Login = () => {
   const [usernameInput, setUsernameInput] = useState('');
