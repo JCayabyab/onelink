@@ -15,23 +15,26 @@ export default async function handler(req, res) {
     return;
   }
   const userData = querySnapshot.docs.at(0).data();
-  const likes = await getDocs(
-    collection(db, `users/${userData.oneLink}/likes`)
-  );
-  const links = await getDocs(
-    collection(db, `users/${userData.oneLink}/links`)
-  );
-  const user = {
-    username: userData.username,
-    oneLink: userData.oneLink,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    likes: likes.docs.map((l) => l.id),
-    links: links.docs.map((l) => ({
-      label: l.data().label,
-      link: l.data().link,
-    })),
-  };
-  console.log(user);
-  res.status(200).json(user);
+  try {
+    const likes = await getDocs(
+      collection(db, `users/${userData.oneLink}/likes`)
+    );
+    const links = await getDocs(
+      collection(db, `users/${userData.oneLink}/links`)
+    );
+    const user = {
+      username: userData.username,
+      oneLink: userData.oneLink,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      likes: likes.docs.map((l) => l.id),
+      links: links.docs.map((l) => ({
+        label: l.data().label,
+        link: l.data().link,
+      })),
+    };
+    res.status(200).json(user);
+  } catch (e) {
+    res.status(500).json(e);
+  }
 }
