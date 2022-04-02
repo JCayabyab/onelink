@@ -32,6 +32,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
+      console.log('login');
       const res = await axios.post('/api/login', {
         username: usernameInput,
         password: passwordInput,
@@ -45,6 +46,7 @@ const Login = () => {
       }
     } catch (err) {
       const axiosError = err as AxiosError;
+      console.log(err);
       if (axiosError.response) {
         setError(axiosError.response.data);
       } else {
