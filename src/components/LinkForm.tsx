@@ -7,7 +7,10 @@ import React, {
 } from 'react';
 
 import { PlusIcon, XCircleIcon } from '@heroicons/react/solid';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
+import { useGlobalContext } from '@/contexts/GlobalContext';
 import { ILink } from '@/hooks/useLinks';
 
 interface ILinkInput {
@@ -27,6 +30,8 @@ interface LinkFormProps {
 
 const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
   const [linkInputMap, setLinkInputMap] = useState<ILinkInputMap>({});
+  const { user } = useGlobalContext();
+  const router = useRouter();
 
   useEffect(() => {
     if (existingLinkInputs) {
@@ -78,6 +83,11 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
     [setLinkInputMap]
   );
 
+  const saveLinks = useCallback(async () => {
+    await axios.post('/api/updateLinks', { user, linkInputMap });
+    await router.push('/');
+  }, [linkInputMap]);
+
   const linkInputs = useMemo(() => Object.values(linkInputMap), [linkInputMap]);
 
   const renderLinkInputs = () =>
@@ -116,6 +126,7 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
     linkInputs,
     addLinkInput,
     renderLinkInputs,
+    saveLinks,
   };
 };
 
@@ -125,7 +136,7 @@ export default function LinkForm({
   initialLinkInput,
   sendButtonText,
 }: LinkFormProps) {
-  const { addLinkInput, renderLinkInputs } = useLinkInputs(
+  const { addLinkInput, renderLinkInputs, saveLinks } = useLinkInputs(
     initialLinkInput || defaultLinkInputs
   );
 
@@ -140,7 +151,7 @@ export default function LinkForm({
             Add
           </button>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center" onClick={saveLinks}>
           <button className="rounded-full bg-purple-900 px-10 py-2 text-xl font-bold text-white">
             {sendButtonText || 'Publish'}
           </button>
