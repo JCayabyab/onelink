@@ -14,8 +14,12 @@ export default async function handler(req, res) {
     res.status(401).send('Incorrect credentials');
     return;
   }
-  const likes = await getDocs(collection(db, `users/${username}/likes`));
-  const links = await getDocs(collection(db, `users/${username}/links`));
+  const likes = await getDocs(
+    collection(db, `users/${querySnapshot.docs.at(0).data().oneLink}/likes`)
+  );
+  const links = await getDocs(
+    collection(db, `users/${querySnapshot.docs.at(0).data().oneLink}/links`)
+  );
   const user = querySnapshot.docs.map((x) => ({
     username: x.get('username'),
     oneLink: x.get('oneLink'),

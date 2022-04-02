@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     res.status(401).send('Link already taken. ');
     return;
   }
-  await setDoc(doc(db, 'users', username), {
+  await setDoc(doc(db, 'users', oneLink), {
     username,
     password,
     firstName,

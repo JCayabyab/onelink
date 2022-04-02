@@ -40,6 +40,7 @@ const SearchResults = () => {
   const { query } = router.query;
 
   const { userResults } = useSearch(query as string);
+  console.log('userResults', userResults);
 
   const formattedQuery = useMemo(
     () => (query ? replacePlusesWithSpaces(query as string) : ''),

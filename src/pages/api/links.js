@@ -2,13 +2,13 @@ import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import db from './firebaseHandler';
 
 export default async function handler(req, res) {
-  const { username, oneLink } = req.body;
-  const userInfo = await getDoc(doc(db, 'users', username));
-  const likes = await getDocs(collection(db, `users/${username}/likes`));
-  const links = await getDocs(collection(db, `users/${username}/links`));
+  const { oneLink } = req.body;
+  const userInfo = await getDoc(doc(db, 'users', oneLink));
+  const likes = await getDocs(collection(db, `users/${oneLink}/likes`));
+  const links = await getDocs(collection(db, `users/${oneLink}/links`));
   const user = {
     username: userInfo.data().username,
-    oneLink,
+    oneLink: userInfo.data().oneLink,
     firstName: userInfo.data().firstName,
     lastName: userInfo.data().lastName,
     likes: likes.docs.map((x) => x.id),
