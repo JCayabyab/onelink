@@ -32,5 +32,6 @@ export default async function handler(req, res) {
       link: l.data().link,
     })),
   };
+  console.log(user);
   res.status(200).json(user);
 }
