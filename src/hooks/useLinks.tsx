@@ -19,17 +19,17 @@ const useLinks = (oneLink: string | undefined) => {
   useEffect(() => {
     async function getLink() {
       if (oneLink) {
-        const res = await axios.post('/api/links', { oneLink });
+        const res = await axios.post('/api/links', {
+          username: user?.username,
+          oneLink,
+        });
         const linkOwnerFromBackend: IUser = {
           username: res.data.username,
           oneLink: res.data.oneLink,
           firstName: res.data.firstName,
           lastName: res.data.lastName,
-          likes: Object.keys(res.data.likes).map((key) => [key]),
-          links: Object.keys(res.data.links).map((key: any) => ({
-            label: key,
-            link: res.data.links[key],
-          })),
+          likes: new Set(res.data.likes),
+          links: res.data.links,
         };
         setOnelinkOwner(linkOwnerFromBackend);
       }
@@ -38,10 +38,15 @@ const useLinks = (oneLink: string | undefined) => {
   }, [oneLink]);
 
   useEffect(() => {
-    if (onelinkOwner?.links?.length > 0) {
+    if (onelinkOwner && onelinkOwner?.links.length > 0) {
       setLinks(onelinkOwner?.links);
     }
-    setLikes(onelinkOwner?.likes);
+    if (onelinkOwner) {
+      setLikes(onelinkOwner?.likes.size);
+    }
+    if (onelinkOwner && user && onelinkOwner?.likes.has(user?.username)) {
+      setLiked(true);
+    }
   }, [onelinkOwner]);
 
   const renderLinks = () =>
@@ -62,12 +67,12 @@ const useLinks = (oneLink: string | undefined) => {
       <div>...</div>
     );
 
-  const addLike = () => {
+  const addLike = async () => {
     // TODO: Add try-catch when this is implemented
     if (!user) {
       return;
     }
-    // await axios.post('/api/like', { username, oneLink })
+    await axios.post('/api/like', { username: user.username, oneLink });
     setLikes((prevLikes) => prevLikes + 1);
     setLiked(true);
   };

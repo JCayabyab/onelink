@@ -18,13 +18,15 @@ const useSearch = (query: string) => {
     async function search() {
       if (query) {
         const res = await axios.post('/api/search', { query });
-        const users: IUser[] = res.data.map((user: any) => ({
-          username: user.username,
-          oneLink: user.oneLink,
-          likes: Object.keys(user.likes).map((key) => [key]),
-          links: Object.keys(user.links).map((key) => [key, user.links[key]]),
-        }));
-        setUserResults(users);
+        const user: IUser = {
+          username: res.data.username,
+          oneLink: res.data.oneLink,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
+          likes: new Set(res.data.likes),
+          links: res.data.links,
+        };
+        setUserResults([user]);
       }
     }
     search();
@@ -38,7 +40,6 @@ const SearchResults = () => {
   const { query } = router.query;
 
   const { userResults } = useSearch(query as string);
-  console.log(userResults);
 
   const formattedQuery = useMemo(
     () => (query ? replacePlusesWithSpaces(query as string) : ''),
@@ -60,7 +61,7 @@ const SearchResults = () => {
                 </div>
                 <div className="text-sm text-black">{links.length} Links</div>
               </div>
-              <LikeCounter likes={likes.length} blackText />
+              <LikeCounter likes={likes.size} blackText />
             </a>
           </Link>
         ))}

@@ -25,14 +25,12 @@ export default async function handler(req, res) {
     res.status(401).send('Link already taken. ');
     return;
   }
-  await setDoc(doc(users), {
+  await setDoc(doc(db, 'users', username), {
     username,
     password,
     firstName,
     lastName,
     oneLink,
-    links: {},
-    likes: {},
   });
   res.status(200).json({ username, password, firstName, lastName, oneLink });
 }
