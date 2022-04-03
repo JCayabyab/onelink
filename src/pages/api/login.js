@@ -15,7 +15,6 @@ export default async function handler(req, res) {
     return;
   }
   const userData = querySnapshot.docs.pop().data();
-  // const userData = querySnapshot.docs.at(0).data();
   const likes = await getDocs(
     collection(db, `users/${userData.oneLink}/likes`)
   );
