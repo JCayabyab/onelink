@@ -14,7 +14,8 @@ export default async function handler(req, res) {
     res.status(401).send('Incorrect credentials');
     return;
   }
-  const userData = querySnapshot.docs.at(0).data();
+  const userData = querySnapshot.docs.pop().data();
+  // const userData = querySnapshot.docs.at(0).data();
   const likes = await getDocs(
     collection(db, `users/${userData.oneLink}/likes`)
   );
@@ -32,7 +33,5 @@ export default async function handler(req, res) {
       link: l.data().link,
     })),
   };
-  // eslint-disable-next-line no-promise-executor-return
-  await new Promise((r) => setTimeout(r, 1000));
   res.status(200).json(user);
 }
