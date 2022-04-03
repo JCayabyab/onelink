@@ -32,6 +32,7 @@ export default async function handler(req, res) {
       link: l.data().link,
     })),
   };
-  console.log(user);
+  // eslint-disable-next-line no-promise-executor-return
+  await new Promise((r) => setTimeout(r, 1000));
   res.status(200).json(user);
 }
