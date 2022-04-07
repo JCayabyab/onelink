@@ -31,7 +31,7 @@ const OneLink = () => {
             </div>
             <LikeButton handleLike={handleLike} liked={liked} />
           </div>
-          <div className="container mt-2 rounded-lg bg-white px-7 py-5">
+          <div className="mt-2 rounded-lg bg-white px-7 py-5">
             <div>{renderLinks()}</div>
           </div>
         </>

@@ -31,15 +31,14 @@ const Create = () => {
                   Edit
                 </a>
               </Link>
-              {/* TODO: Remove default linkName */}
-              <Link href={`/l/${user.oneLink || 'default'}`}>
+              <Link href={`/l/${user.oneLink}`}>
                 <a className="mt-2 ml-2 rounded-full bg-white px-5 py-2 text-lg font-bold text-black">
                   Preview
                 </a>
               </Link>
             </div>
           </div>
-          <div className="container mt-2 rounded-lg bg-white px-7 py-5">
+          <div className="mt-2 rounded-lg bg-white px-7 py-5">
             <div>{renderLinks()}</div>
           </div>
         </>
