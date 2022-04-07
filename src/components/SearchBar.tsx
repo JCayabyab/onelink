@@ -20,19 +20,20 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="rounded-full border-2 border-black py-1 pl-0.5 pr-1">
-      <form onSubmit={handleSubmit} className="flex items-center">
-        <input
-          className="border-0 bg-transparent px-4 focus:outline-0 focus:ring-0"
-          type="text"
-          value={queryInput}
-          onChange={(event) => setQueryInput(event.currentTarget.value)}
-          placeholder="Search"
-        />
-        <button type="submit" className="p-2 hover:text-black">
-          <SearchIcon className="mr-2 h-7 w-7" />
-        </button>
-      </form>
-    </div>
+    <form
+      onSubmit={handleSubmit}
+      className="flex min-w-0 flex-1 items-center rounded-full border-2 border-black py-1 pl-0.5 pr-1"
+    >
+      <input
+        className="min-w-0 flex-1 border-0 bg-transparent px-4 focus:outline-0 focus:ring-0"
+        type="text"
+        value={queryInput}
+        onChange={(event) => setQueryInput(event.currentTarget.value)}
+        placeholder="Search"
+      />
+      <button type="submit" className="mr-2 p-2 hover:text-black">
+        <SearchIcon className="h-7 w-7" />
+      </button>
+    </form>
   );
 }
