@@ -15,7 +15,7 @@ const Main = (props: IMainProps) => {
 
       <Navbar />
       <div className="mx-auto max-w-screen-md">
-        <div className="content py-5 text-xl">{props.children}</div>
+        <div className="content mx-2 py-5 text-xl">{props.children}</div>
 
         <div className="border-t border-gray-300 py-8 text-center text-sm text-white">
           © Copyright {new Date().getFullYear()} {AppConfig.title}. Made for
