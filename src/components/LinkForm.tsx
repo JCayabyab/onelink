@@ -86,7 +86,7 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
   const saveLinks = useCallback(async () => {
     await axios.post('/api/updateLinks', { user, linkInputMap });
     await router.push('/');
-  }, [linkInputMap]);
+  }, [linkInputMap, router, user]);
 
   const linkInputs = useMemo(() => Object.values(linkInputMap), [linkInputMap]);
 
@@ -100,7 +100,7 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
             setLinkInput(id, event.currentTarget.value, link)
           }
           placeholder="Label"
-          className="my-2 flex-[0.3] rounded-sm text-black"
+          className="my-2 min-w-0 flex-[0.3] rounded-sm text-black"
         ></input>
         <input
           type="text"
@@ -109,7 +109,7 @@ const useLinkInputs = (existingLinkInputs: ILink[] = []) => {
             setLinkInput(id, label, event.currentTarget.value)
           }
           placeholder="Link"
-          className="m-2 flex-[0.7] rounded-sm text-black"
+          className="m-2 min-w-0 flex-[0.7] rounded-sm text-black"
         ></input>
         {linkInputs.length > 1 && (
           <button
