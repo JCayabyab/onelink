@@ -22,7 +22,7 @@ export default function Navbar() {
   const { user, logout } = useGlobalContext();
 
   return (
-    <div className="flex w-full items-center justify-between border-b border-gray-300 bg-white px-4 pt-4 pb-2">
+    <div className="flex items-center justify-between border-b border-gray-300 bg-white px-4 pt-4 pb-2">
       <div>
         <div className="text-3xl font-bold text-purple-900">
           <Link href="/">
@@ -31,7 +31,7 @@ export default function Navbar() {
         </div>
       </div>
       {user ? (
-        <div className="flex items-center">
+        <div className="ml-2 flex min-w-0 max-w-xs flex-1 items-center justify-end">
           <SearchBar />
           <Menu as="div" className="ml-4">
             <Menu.Button as={Fragment}>
