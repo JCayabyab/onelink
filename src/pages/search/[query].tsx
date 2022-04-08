@@ -13,41 +13,59 @@ const replacePlusesWithSpaces = (query: string) => query.replaceAll('+', ' ');
 
 const useSearch = (query: string) => {
   const [userResults, setUserResults] = useState<IUser[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function search() {
-      if (query) {
-        const res = await axios.post('/api/search', { query });
-        const user: IUser = {
-          username: res.data.username,
-          oneLink: res.data.oneLink,
-          firstName: res.data.firstName,
-          lastName: res.data.lastName,
-          likes: new Set(res.data.likes),
-          links: res.data.links,
-        };
-        setUserResults([user]);
+      try {
+        if (query) {
+          const res = await axios.post('/api/search', { query });
+          if (res.data && res.data.users) {
+            const users: IUser[] = res.data.users.map((user: any) => ({
+              username: user.username,
+              oneLink: user.oneLink,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              likes: new Set(user.likes),
+              links: user.links,
+            }));
+
+            setUserResults(users);
+            setError(null);
+          }
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        }
       }
     }
     search();
   }, [query]);
 
-  return { userResults };
+  return { userResults, error };
 };
 
 const SearchResults = () => {
   const router = useRouter();
   const { query } = router.query;
 
-  const { userResults } = useSearch(query as string);
+  const { userResults, error } = useSearch(query as string);
 
   const formattedQuery = useMemo(
     () => (query ? replacePlusesWithSpaces(query as string) : ''),
     [query]
   );
 
-  const renderResults = () =>
-    userResults ? (
+  const renderResults = () => {
+    if (!userResults) {
+      return <div>...</div>;
+    }
+    if (!userResults.length) {
+      return <div>There were no users matching the query.</div>;
+    }
+
+    return (
       <div>
         {userResults.map(({ username, oneLink, likes, links }) => (
           <Link href={`/l/${oneLink}`} key={username}>
@@ -66,9 +84,8 @@ const SearchResults = () => {
           </Link>
         ))}
       </div>
-    ) : (
-      <div>...</div>
     );
+  };
 
   return (
     <Main
@@ -86,6 +103,7 @@ const SearchResults = () => {
       </div>
       <div className="container mt-2 rounded-lg bg-white px-7 py-5">
         <div>{renderResults()}</div>
+        {error && <div className="text-red-500">{error}</div>}
       </div>
     </Main>
   );
