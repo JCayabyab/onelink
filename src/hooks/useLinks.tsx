@@ -37,16 +37,14 @@ const useLinks = (oneLink: string | undefined) => {
   }, [oneLink]);
 
   useEffect(() => {
-    if (onelinkOwner && onelinkOwner?.links.length > 0) {
-      setLinks(onelinkOwner?.links);
-    }
     if (onelinkOwner) {
-      setLikes(onelinkOwner?.likes.size);
+      setLinks(onelinkOwner.links);
+      setLikes(onelinkOwner.likes.size);
     }
-    if (onelinkOwner && user && onelinkOwner?.likes.has(user?.username)) {
+    if (onelinkOwner && user && onelinkOwner.likes.has(user.username)) {
       setLiked(true);
     }
-  }, [onelinkOwner]);
+  }, [onelinkOwner, user]);
 
   const renderLinks = () =>
     links ? (

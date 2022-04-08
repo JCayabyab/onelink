@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import LikeCounter from '@/components/LikeCounter';
 import { useGlobalContext } from '@/contexts/GlobalContext';
@@ -8,7 +11,14 @@ import { Main } from '@/templates/Main';
 
 const Create = () => {
   const { user } = useGlobalContext();
-  const { renderLinks, likes } = useLinks(user?.oneLink);
+  const router = useRouter();
+  const { links, renderLinks, likes } = useLinks(user?.oneLink);
+
+  useEffect(() => {
+    if (links && links.length === 0) {
+      router.push('/create');
+    }
+  }, [router, links]);
 
   return (
     <Main
