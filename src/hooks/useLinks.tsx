@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import axios from 'axios';
+import ReactTooltip from 'react-tooltip';
 
 import { IUser, useGlobalContext } from '@/contexts/GlobalContext';
 
@@ -55,9 +56,14 @@ const useLinks = (oneLink: string | undefined) => {
             target="_blank"
             rel="noreferrer"
             className="block w-full rounded-md border-8 border-black py-3 px-5 text-black hover:bg-black/10"
+            data-tip
+            data-for={`tooltip-${label}`}
           >
             {label}
           </a>
+          <ReactTooltip id={`tooltip-${label}`} role="tooltip" effect="solid">
+            <span>{link}</span>
+          </ReactTooltip>
         </div>
       ))
     ) : (
