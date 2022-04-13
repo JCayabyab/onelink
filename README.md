@@ -19,3 +19,7 @@ npm run dev
 [![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JCayabyab/onelink)
 
 This project was bootstrapped with the [CreativeDesignsGuru Next.js boilerplate](https://github.com/ixartz/Next-js-Boilerplate).
+
+## GitHub URL
+
+The source code for this repository can be found [here](https://github.com/jcayabyab/onelink).
